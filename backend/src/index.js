@@ -1,12 +1,16 @@
-import ApolloServer from 'apollo-server'
-import resolvers from './resolvers'
-import typeDefs from './typeDefs'
-import datasource from './datasource'
+import { ApolloServer } from 'apollo-server'
+import resolvers from './modules/resolvers'
+import typeDefs from './modules/typeDefs'
+import { createDatasource, seed } from './data-sources'
+import mockData from './_mock-data'
+
+const dataSources = createDatasource('my.db')
+seed(dataSources, mockData)
 
 const server = new ApolloServer({
   resolvers,
   typeDefs,
-  datasource,
+  dataSources: () => dataSources,
 })
 
 server.listen().then(({ url }) => {
