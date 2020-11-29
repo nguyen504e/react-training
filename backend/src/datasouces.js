@@ -7,3 +7,5 @@ export const createDatasource = (name) => {
     company: db.addCollection('company', { indices: ['name'] }),
   }
 }
+
+export const seed = (datasource, data) => {}
