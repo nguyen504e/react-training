@@ -1,10 +1,12 @@
-import faker from 'faker'
 import { times } from 'lodash'
+
+import faker from 'faker'
 
 faker.seed(123)
 
 const companies = times(20, () => {
   return {
+    uuid: faker.random.uuid(),
     suffixes: faker.company.suffixes(),
     name: faker.company.companyName(),
     account: faker.finance.account(),
@@ -18,11 +20,16 @@ const companies = times(20, () => {
     },
   }
 })
-const accounts = companies.map((c) => c.account)
+const companyIds = companies.map((c) => c.uuid)
 
 const products = times(200, () => {
   return {
-    company: faker.random.arrayElement(accounts),
+    uuid: faker.random.uuid(),
+    company: faker.random.arrayElement(companyIds),
+    name: faker.commerce.productName(),
+    type: faker.commerce.product(),
+    description: faker.commerce.productDescription(),
+    price: faker.commerce.price(),
   }
 })
 

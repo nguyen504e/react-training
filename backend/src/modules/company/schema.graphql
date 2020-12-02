@@ -8,17 +8,35 @@ type Address {
 }
 
 type Company {
-  id: Int!
+  id: String!
   name: String!
   suffixes: [String]!
   account: String!
   address: Address!
 }
 
+input CompanyInput {
+  name: String
+  suffixes: [String]
+  account: String
+  address: AddressInput
+}
+
+input AddressInput {
+  zipCode: String
+  city: String
+  streetAddress: String
+  county: String
+  state: String
+  country: String
+}
+
 type Query {
   listCompany(name: String): [Company]
+  getCompany(id: String!): Company
 }
 
 type Mutation {
-  removeCompany(id: Int!): Company 
+  removeCompany(id: String!): Boolean!
+  updateCompany(id: String, data: CompanyInput): Company!
 }
