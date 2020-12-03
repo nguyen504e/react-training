@@ -1,3 +1,5 @@
+import { merge } from 'lodash'
+
 export default {
   Company: {
     id: (src) => src.uuid,
@@ -13,15 +15,22 @@ export default {
     },
   },
   Mutation: {
-    removeCompany: (_, args, { dataSources }) => {
-      const { company: companyCollection } = dataSources
-      companyCollection.remove({ uuid: args.id })
-      return true
+    removeCompany: (_, args, { dataSources: { company } }) => {
+      const doc = company.findOne({ uuid: args.id })
+      if (doc) {
+        company.remove(doc)
+        return true
+      }
+      return false
     },
-    updateCompany: (_, args, { dataSources }) => {
-      const { company: companyCollection } = dataSources
-      companyCollection.update({ uuid: args.id }, args.data)
-      return companyCollection.findOne({ uuid: args.id })
+    updateCompany: (_, args, { dataSources: { company } }) => {
+      const query = { uuid: args.id }
+      const doc = company.findOne(query)
+      if (!doc) {
+        throw new Error('Entity not found')
+      }
+      company.update(merge(doc, args.data))
+      return company.findOne(query)
     },
   },
 }

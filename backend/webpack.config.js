@@ -13,6 +13,7 @@ module.exports = (env = {}, argv) => {
       path: path.resolve(__dirname, './dist'),
     },
     externals: [nodeExternals()],
+    devtool: 'cheap-source-map',
     module: {
       rules: [
         {
@@ -21,8 +22,20 @@ module.exports = (env = {}, argv) => {
         },
         {
           test: /\.js$/,
-          use: 'babel-loader',
           exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                [
+                  '@babel/preset-env',
+                  {
+                    targets: 'node 12',
+                  },
+                ],
+              ],
+            },
+          },
         },
       ],
     },

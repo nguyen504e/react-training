@@ -1,1 +1,19 @@
+@import "~bootstrap/scss/bootstrap";
 @import "styles/icons";
+
+
+[component-name="CompanyTable"] {
+    table {
+        td {
+            vertical-align: middle;
+        }
+        td.clm-actions {
+            text-align: right;
+            width: 1%;
+        }
+    }
+
+    .action-group > .btn:not(:first-child) {
+        margin-left: 0.5rem;
+    }
+} 

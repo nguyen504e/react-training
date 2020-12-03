@@ -10,12 +10,25 @@ const config = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
   },
+  devtool: 'cheap-source-map',
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: 'babel-loader',
         exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  targets: 'last 1 Chrome versions, last 1 Firefox versions',
+                },
+              ],
+            ],
+          },
+        },
       },
       {
         test: /\.scss$/,
